@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
 import { User } from 'src/app/shared/models/user';
 import { SharedService } from 'src/app/shared/shared.service';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -39,14 +40,19 @@ export class LoginComponent {
         this.loginFormGroup.get('email')?.value,
         this.loginFormGroup.get('password')?.value
       )
-      .subscribe((user: User) => {
-        if (user.id) {
+      .subscribe({
+        next: (user: User) => {
           this.sharedService.user$.next(user);
           this.router.navigate(['/', 'dashboard']);
-        } else {
-          //failed to login
-        }
-        this.loading = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          this.loading = false;
+          this.sharedService.addMessage(
+            'error',
+            err.error.error,
+            err.error.message
+          );
+        },
       });
   }
 
