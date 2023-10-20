@@ -1,0 +1,29 @@
+<form
+  [formGroup]="loginFormGroup"
+  class="card flex flex-column justify-content-center align-items-center gap-4"
+>
+  <span class="p-float-label">
+    <input
+      pInputText
+      id="username"
+      formControlName="email"
+      [ngClass]="{
+        'ng-invalid ng-dirty': isInvalid(loginFormGroup.get('email')),
+      }"
+    />
+    <label htmlFor="username">Email</label>
+  </span>
+  <span class="p-float-label">
+    <input
+      pInputText
+      id="password"
+      formControlName="password"
+      [ngClass]="{
+        'ng-invalid ng-dirty': isInvalid(loginFormGroup.get('password')),
+      }"
+    />
+    <label htmlFor="password">Password</label>
+  </span>
+
+  <p-button label="Login" [loading]="loading" (onClick)="login()"></p-button>
+</form>
