@@ -21,9 +21,11 @@ model User {
 }
 
 model Sprint {
-  id    Int    @id @default(autoincrement())
-  name  String
-  tasks Task[]
+  id         Int       @id @default(autoincrement())
+  name       String
+  createdAt  DateTime  @default(now())
+  finishedAt DateTime?
+  tasks      Task[]
 }
 
 model Task {
