@@ -42,6 +42,11 @@ export class LoginComponent {
       )
       .subscribe({
         next: (user: User) => {
+          this.sharedService.addMessage(
+            'success',
+            'Success',
+            `Welcome, ${user.firstName}`
+          );
           this.sharedService.user$.next(user);
           this.router.navigate(['/', 'dashboard']);
         },
