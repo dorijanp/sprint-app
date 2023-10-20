@@ -11,11 +11,13 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String?
-  creator  Task[]  @relation("creator")
-  assignee Task[]  @relation("assignee")
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  hash      String
+  firstName String
+  lastName  String
+  creator   Task[] @relation("creator")
+  assignee  Task[] @relation("assignee")
 }
 
 model Sprint {
