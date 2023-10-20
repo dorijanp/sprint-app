@@ -7,5 +7,40 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postgres@localhost:5432/sprint_app?schema=public"
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  creator  Task[]  @relation("creator")
+  assignee Task[]  @relation("assignee")
+}
+
+model Sprint {
+  id    Int    @id @default(autoincrement())
+  name  String
+  tasks Task[]
+}
+
+model Task {
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime   @default(now())
+  creator     User       @relation("creator", fields: [creatorId], references: [id], onDelete: Restrict)
+  creatorId   Int
+  assignee    User?      @relation("assignee", fields: [assigneeId], references: [id], onDelete: Restrict)
+  assigneeId  Int?
+  sprint      Sprint     @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  sprintId    Int
+  title       String
+  description String?
+  status      TaskStatus @default(ToDo)
+}
+
+enum TaskStatus {
+  ToDo       @map("To do")
+  InProgress @map("In Progress")
+  InReview   @map("In Review")
+  Finished
 }
