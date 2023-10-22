@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { SprintService } from './sprint.service';
 import { CreateSprintDTO } from './dto';
 
@@ -9,6 +16,11 @@ export class SprintController {
   @Get()
   getSprints() {
     return this.sprintService.getSprints();
+  }
+
+  @Get(':id')
+  getSprint(@Param('id', ParseIntPipe) id: number) {
+    return this.sprintService.getSprint(id);
   }
 
   @Post()
