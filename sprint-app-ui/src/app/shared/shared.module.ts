@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { SharedService } from './shared.service';
-
 @NgModule({
   declarations: [],
   imports: [CommonModule],

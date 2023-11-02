@@ -1,0 +1,26 @@
+<div class="card">
+  <span class="p-float-label">
+    <input pInputText id="username" [(ngModel)]="task.title" />
+    <label htmlFor="username">Title</label>
+  </span>
+  <p-editor [(ngModel)]="task.description"></p-editor>
+
+  <span class="p-float-label">
+    <p-dropdown
+      [options]="users"
+      [(ngModel)]="task.assignee"
+      optionLabel="name"
+    ></p-dropdown>
+    <label for="float-label">Assignee</label>
+  </span>
+
+  <span class="p-float-label">
+    <p-dropdown
+      [options]="status"
+      [(ngModel)]="task.status"
+      optionLabel="display"
+      optionValue="value"
+    ></p-dropdown>
+    <label for="float-label">Status</label>
+  </span>
+</div>
