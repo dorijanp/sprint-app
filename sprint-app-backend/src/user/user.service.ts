@@ -7,8 +7,17 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllUsers() {
-    return await this.prisma.user.findMany();
+  getAllUsers() {
+    return this.prisma.user.findMany();
+  }
+
+  async getUser(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    return user ?? {};
   }
 
   async createUser(createUserDTO: CreateUserDTO) {
