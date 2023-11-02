@@ -1,0 +1,44 @@
+<p-splitter styleClass="m-5">
+  <ng-template pTemplate>
+    <div class="col flex flex-column align-items-center justify-content-center">
+      <h3>To do</h3>
+      <p-card
+        *ngFor="let task of todoTasks"
+        [header]="task.title"
+        [subheader]="'Created ' + task.createdAt.toLocaleString()"
+      >
+        <p-button icon="pi pi-trash" class="text-xs"></p-button>
+        <p-button
+          icon="pi pi-ellipsis-h"
+          styleClass="p-button-secondary"
+          class="ml-1 text-xs"
+          (click)="openTaskDetailsDialog(task)"
+        ></p-button>
+      </p-card>
+    </div>
+  </ng-template>
+  <ng-template pTemplate>
+    <div class="col flex flex-column align-items-center justify-content-center">
+      <h3>In Progress</h3>
+      <div *ngFor="let task of inProgressTasks">
+        {{ task | json }}
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate>
+    <div class="col flex flex-column align-items-center justify-content-center">
+      <h3>In Review</h3>
+      <div *ngFor="let task of inReviewTasks">
+        {{ task | json }}
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate>
+    <div class="col flex flex-column align-items-center justify-content-center">
+      <h3>Finished</h3>
+      <div *ngFor="let task of finishedTasks">
+        {{ task | json }}
+      </div>
+    </div>
+  </ng-template>
+</p-splitter>
