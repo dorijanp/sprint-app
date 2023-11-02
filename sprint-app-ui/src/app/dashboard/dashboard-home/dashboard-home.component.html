@@ -1,1 +1,9 @@
-<p>dashboard-home works!</p>
+<ng-container *ngFor="let sprint of sprints$ | async">
+  <p-chip
+    (click)="getSprintDetails(sprint)"
+    [label]="sprint.name"
+    class="sprint-chip"
+  ></p-chip>
+</ng-container>
+
+<app-sprint [sprint]="selectedSprint"></app-sprint>
