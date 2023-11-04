@@ -7,8 +7,8 @@ import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-task-details',
-  templateUrl: './task.component.html',
-  styleUrls: ['./task.component.css'],
+  templateUrl: './task-details.component.html',
+  styleUrls: ['./task-details.component.css'],
 })
 export class TaskDetailsComponent {
   constructor(
