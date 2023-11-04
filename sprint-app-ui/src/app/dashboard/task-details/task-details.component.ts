@@ -6,11 +6,11 @@ import { User } from 'src/app/shared/models/user';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-task',
+  selector: 'app-task-details',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css'],
 })
-export class TaskComponent {
+export class TaskDetailsComponent {
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
