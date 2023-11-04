@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
-import { UpdateTaskDTO } from './dto';
+import { CreateTaskDTO, UpdateTaskDTO } from './dto';
 
 @Injectable()
 export class TaskService {
@@ -44,5 +44,14 @@ export class TaskService {
     });
 
     return updatedTask;
+  }
+
+  async createTask(createTaskDTO: CreateTaskDTO) {
+    const task = await this.prisma.task.create({
+      data: {
+        ...createTaskDTO,
+      },
+    });
+    return task;
   }
 }
