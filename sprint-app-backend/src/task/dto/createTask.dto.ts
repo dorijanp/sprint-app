@@ -1,5 +1,4 @@
 export interface CreateTaskDTO {
-  status: 'ToDo' | 'InProgress' | 'InReview' | 'Finished';
   title: string;
   description: string;
   creatorId: number;
