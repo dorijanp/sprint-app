@@ -16,6 +16,7 @@ import { EditorModule } from 'primeng/editor';
 import { DropdownModule } from 'primeng/dropdown';
 import { DividerModule } from 'primeng/divider';
 import { DragDropModule } from 'primeng/dragdrop';
+import { TaskComponent } from './task/task.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { DragDropModule } from 'primeng/dragdrop';
     SprintComponent,
     TaskDetailsComponent,
     CreateTaskComponent,
+    TaskComponent,
   ],
   imports: [
     SharedModule,

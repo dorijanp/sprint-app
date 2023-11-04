@@ -2,8 +2,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Sprint } from 'src/app/shared/models/sprint';
 import { Task } from 'src/app/shared/models/task';
-import { TaskComponent } from '../task/task.component';
+import { TaskDetailsComponent } from '../task-details/task-details.component';
 import { CreateTaskComponent } from '../create-task/create-task.component';
+
+interface TaskList {
+  ToDo: Task[];
+  InProgress: Task[];
+  InReview: Task[];
+  Finished: Task[];
+}
 
 @Component({
   selector: 'app-sprint',
@@ -15,10 +22,7 @@ export class SprintComponent {
   _sprint: Sprint | undefined;
   ref: DynamicDialogRef | undefined;
 
-  todoTasks: Task[] = [];
-  inProgressTasks: Task[] = [];
-  inReviewTasks: Task[] = [];
-  finishedTasks: Task[] = [];
+  tasks!: TaskList;
 
   constructor(public dialogService: DialogService) {}
 
@@ -27,46 +31,24 @@ export class SprintComponent {
       this._sprint = value;
       this.splitTasks(value);
     }
-    console.log(value);
   }
 
   @Output() updateSprint = new EventEmitter();
 
   splitTasks(sprint: Sprint) {
-    this.todoTasks = [];
-    this.inProgressTasks = [];
-    this.inReviewTasks = [];
-    this.finishedTasks = [];
+    this.tasks = {
+      ToDo: [],
+      InProgress: [],
+      InReview: [],
+      Finished: [],
+    };
 
     for (const task of sprint.tasks!) {
-      switch (task.status) {
-        case 'ToDo':
-          this.todoTasks.push(task);
-          break;
-        case 'InProgress':
-          this.inProgressTasks.push(task);
-          break;
-        case 'InReview':
-          this.inReviewTasks.push(task);
-          break;
-        case 'Finished':
-          this.finishedTasks.push(task);
-          break;
-      }
+      this.tasks[task.status as keyof TaskList].push(task);
       task.createdAt = new Date(task.createdAt);
     }
-  }
 
-  openTaskDetailsDialog(task: Task) {
-    this.ref = this.dialogService.open(TaskComponent, {
-      header: 'Task details',
-      data: { id: task.id },
-      maximizable: true,
-    });
-
-    this.ref.onClose.subscribe((res) => {
-      this.updateSprint.emit();
-    });
+    console.log(this.tasks);
   }
 
   createTask() {
@@ -79,5 +61,27 @@ export class SprintComponent {
     this.ref.onClose.subscribe((res) => {
       this.updateSprint.emit();
     });
+  }
+
+  draggedTask: Task | null = null;
+
+  dragStart(task: Task) {
+    this.draggedTask = task;
+  }
+
+  drop(event: DragEvent) {
+    console.log(event);
+    if (!this.draggedTask) return;
+
+    const target: HTMLElement = event.target as HTMLElement;
+
+    this.tasks[target.ariaPlaceholder! as keyof TaskList] = [
+      ...this.tasks[target.ariaPlaceholder! as keyof TaskList],
+      this.draggedTask,
+    ];
+  }
+
+  dragEnd(event: DragEvent) {
+    this.draggedTask = null;
   }
 }

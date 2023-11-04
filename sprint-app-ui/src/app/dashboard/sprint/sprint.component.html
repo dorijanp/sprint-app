@@ -1,78 +1,87 @@
-<p-splitter styleClass="m-5" *ngIf="_sprint; else noSprint">
-  <ng-template pTemplate>
-    <div class="col flex flex-column align-items-center justify-content-center">
-      <h3>To do</h3>
-      <p-divider></p-divider>
-
-      <p-card
-        *ngFor="let task of todoTasks"
-        [header]="task.title"
-        [subheader]="'Created ' + task.createdAt.toLocaleString()"
-        class="w-10 min-w-max"
+<ng-container *ngIf="_sprint; else noSprint">
+  <p-splitter styleClass="m-5">
+    <ng-template pTemplate>
+      <div
+        class="col flex flex-column align-items-center justify-content-start gap-3"
+        pDroppable="task"
+        (onDrop)="drop($event)"
+        aria-placeholder="ToDo"
       >
-        <p-button icon="pi pi-trash" class="text-xs"></p-button>
-        <p-button
-          icon="pi pi-ellipsis-h"
-          styleClass="p-button-secondary"
-          class="ml-1 text-xs"
-          (click)="openTaskDetailsDialog(task)"
-        ></p-button>
-      </p-card>
-    </div>
-  </ng-template>
-  <ng-template pTemplate>
-    <div class="col flex flex-column align-items-center justify-content-center">
-      <h3>In Progress</h3>
-      <p-divider></p-divider>
+        <h3>To do</h3>
+        <p-divider></p-divider>
 
-      <p-card
-        *ngFor="let task of inProgressTasks"
-        [header]="task.title"
-        [subheader]="'Created ' + task.createdAt.toLocaleString()"
-        class="w-10 min-w-max"
-      >
-        <p-button icon="pi pi-trash" class="text-xs"></p-button>
-        <p-button
-          icon="pi pi-ellipsis-h"
-          styleClass="p-button-secondary"
-          class="ml-1 text-xs"
-          (click)="openTaskDetailsDialog(task)"
-        ></p-button>
-      </p-card>
-    </div>
-  </ng-template>
-  <ng-template pTemplate>
-    <div class="col flex flex-column align-items-center justify-content-center">
-      <h3>In Review</h3>
-      <p-divider></p-divider>
-
-      <p-card
-        *ngFor="let task of inReviewTasks"
-        [header]="task.title"
-        [subheader]="'Created ' + task.createdAt.toLocaleString()"
-        class="w-10 min-w-max"
-      >
-        <p-button icon="pi pi-trash" class="text-xs"></p-button>
-        <p-button
-          icon="pi pi-ellipsis-h"
-          styleClass="p-button-secondary"
-          class="ml-1 text-xs"
-          (click)="openTaskDetailsDialog(task)"
-        ></p-button>
-      </p-card>
-    </div>
-  </ng-template>
-  <ng-template pTemplate>
-    <div class="col flex flex-column align-items-center justify-content-center">
-      <h3>Finished</h3>
-      <p-divider></p-divider>
-
-      <div *ngFor="let task of finishedTasks">
-        {{ task | json }}
+        <app-task
+          *ngFor="let task of tasks.ToDo"
+          [task]="task"
+          (taskUpdated)="updateSprint.emit()"
+          pDraggable="task"
+          (onDragStart)="dragStart(task)"
+          (onDragEnd)="dragEnd($event)"
+        ></app-task>
       </div>
-    </div>
-  </ng-template>
-</p-splitter>
-<ng-template #noSprint><h2>Select a sprint to start!</h2> </ng-template>
+    </ng-template>
+    <ng-template pTemplate>
+      <div
+        class="col flex flex-column align-items-center justify-content-start"
+        pDroppable="task"
+        (onDrop)="drop($event)"
+        aria-placeholder="InProgress"
+      >
+        <h3>In Progress</h3>
+        <p-divider></p-divider>
 
-<p-button icon="pi pi-plus" (onClick)="createTask()"></p-button>
+        <app-task
+          *ngFor="let task of tasks.InProgress"
+          [task]="task"
+          (taskUpdated)="updateSprint.emit()"
+          pDraggable="task"
+          (onDragStart)="dragStart(task)"
+          (onDragEnd)="dragEnd($event)"
+        ></app-task>
+      </div>
+    </ng-template>
+    <ng-template pTemplate>
+      <div
+        class="col flex flex-column align-items-center justify-content-start"
+        aria-placeholder="InReview"
+        pDroppable="task"
+        (onDrop)="drop($event)"
+      >
+        <h3>In Review</h3>
+        <p-divider></p-divider>
+
+        <app-task
+          *ngFor="let task of tasks.InReview"
+          [task]="task"
+          (taskUpdated)="updateSprint.emit()"
+          pDraggable="task"
+          (onDragStart)="dragStart(task)"
+          (onDragEnd)="dragEnd($event)"
+        ></app-task>
+      </div>
+    </ng-template>
+    <ng-template pTemplate>
+      <div
+        class="col flex flex-column align-items-center justify-content-start"
+        aria-placeholder="Finished"
+        pDroppable="task"
+        (onDrop)="drop($event)"
+      >
+        <h3>Finished</h3>
+        <p-divider></p-divider>
+
+        <app-task
+          *ngFor="let task of tasks.Finished"
+          [task]="task"
+          (taskUpdated)="updateSprint.emit()"
+          pDraggable="task"
+          (onDragStart)="dragStart(task)"
+          (onDragEnd)="dragEnd($event)"
+        ></app-task>
+      </div>
+    </ng-template>
+  </p-splitter>
+  <p-button icon="pi pi-plus" (onClick)="createTask()"></p-button>
+</ng-container>
+
+<ng-template #noSprint><h2>Select a sprint to start!</h2> </ng-template>

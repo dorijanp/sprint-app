@@ -1,0 +1,14 @@
+<p-card
+  pDraggable="task"
+  [header]="task.title"
+  [subheader]="'Created ' + task.createdAt.toLocaleString()"
+  class="w-10 min-w-max shadow-3"
+>
+  <p-button icon="pi pi-trash" class="text-xs"></p-button>
+  <p-button
+    icon="pi pi-ellipsis-h"
+    styleClass="p-button-secondary"
+    class="ml-1 text-xs"
+    (click)="openTaskDetailsDialog(task)"
+  ></p-button>
+</p-card>
