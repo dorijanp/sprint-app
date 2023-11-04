@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Sprint } from 'src/app/shared/models/sprint';
 import { Task } from 'src/app/shared/models/task';
@@ -11,7 +11,7 @@ import { TaskComponent } from '../task/task.component';
   providers: [DialogService],
 })
 export class SprintComponent {
-  private _sprint: Sprint | undefined;
+  _sprint: Sprint | undefined;
   ref: DynamicDialogRef | undefined;
 
   todoTasks: Task[] = [];
@@ -22,26 +22,38 @@ export class SprintComponent {
   constructor(public dialogService: DialogService) {}
 
   @Input() set sprint(value: Sprint | undefined) {
-    this._sprint = value;
+    if (value) {
+      this._sprint = value;
+      this.splitTasks(value);
+    }
     console.log(value);
-    if (value)
-      for (const task of value.tasks!) {
-        switch (task.status) {
-          case 'ToDo':
-            this.todoTasks.push(task);
-            break;
-          case 'InProgress':
-            this.inProgressTasks.push(task);
-            break;
-          case 'InReview':
-            this.inReviewTasks.push(task);
-            break;
-          case 'Finished':
-            this.finishedTasks.push(task);
-            break;
-        }
-        task.createdAt = new Date(task.createdAt);
+  }
+
+  @Output() updateSprint = new EventEmitter();
+
+  splitTasks(sprint: Sprint) {
+    this.todoTasks = [];
+    this.inProgressTasks = [];
+    this.inReviewTasks = [];
+    this.finishedTasks = [];
+
+    for (const task of sprint.tasks!) {
+      switch (task.status) {
+        case 'ToDo':
+          this.todoTasks.push(task);
+          break;
+        case 'InProgress':
+          this.inProgressTasks.push(task);
+          break;
+        case 'InReview':
+          this.inReviewTasks.push(task);
+          break;
+        case 'Finished':
+          this.finishedTasks.push(task);
+          break;
       }
+      task.createdAt = new Date(task.createdAt);
+    }
   }
 
   openTaskDetailsDialog(task: Task) {
@@ -49,6 +61,10 @@ export class SprintComponent {
       header: 'Task details',
       data: { id: task.id },
       maximizable: true,
+    });
+
+    this.ref.onClose.subscribe((res) => {
+      this.updateSprint.emit();
     });
   }
 }

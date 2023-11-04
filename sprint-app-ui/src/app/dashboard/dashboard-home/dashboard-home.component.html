@@ -3,7 +3,11 @@
     (click)="getSprintDetails(sprint)"
     [label]="sprint.name"
     class="text-2xl"
+    [styleClass]="markSelectedChip(sprint)"
   ></p-chip>
 </ng-container>
 
-<app-sprint [sprint]="selectedSprint"></app-sprint>
+<app-sprint
+  [sprint]="selectedSprint"
+  (updateSprint)="getSprintDetails(selectedSprint)"
+></app-sprint>

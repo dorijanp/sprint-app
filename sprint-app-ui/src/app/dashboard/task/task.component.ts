@@ -52,4 +52,23 @@ export class TaskComponent {
       console.log(res);
     });
   }
+
+  loading = false;
+  submit() {
+    this.loading = true;
+
+    const taskForSubmition = {
+      title: this.task.title,
+      description: this.task.description,
+      status: this.task.status,
+      assigneeId: this.task.assignee?.id,
+    };
+
+    this.taskService
+      .updateTask(this.task.id, taskForSubmition)
+      .subscribe((res) => {
+        this.ref.close();
+        this.loading = false;
+      });
+  }
 }

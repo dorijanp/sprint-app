@@ -13,6 +13,7 @@ import { TaskComponent } from './task/task.component';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { DropdownModule } from 'primeng/dropdown';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   declarations: [DashboardHomeComponent, SprintComponent, TaskComponent],
@@ -26,6 +27,7 @@ import { DropdownModule } from 'primeng/dropdown';
     DynamicDialogModule,
     EditorModule,
     DropdownModule,
+    DividerModule,
   ],
 })
 export class DashboardModule {}

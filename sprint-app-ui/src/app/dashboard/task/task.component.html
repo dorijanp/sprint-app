@@ -1,4 +1,6 @@
-<div class="card">
+<div
+  class="card flex flex-column justify-content-center align-items-start gap-4"
+>
   <span class="p-float-label">
     <input pInputText id="username" [(ngModel)]="task.title" />
     <label htmlFor="username">Title</label>
@@ -23,4 +25,11 @@
     ></p-dropdown>
     <label for="float-label">Status</label>
   </span>
+
+  <p-button
+    icon="pi pi-check"
+    label="Submit"
+    [loading]="loading"
+    (onClick)="submit()"
+  ></p-button>
 </div>

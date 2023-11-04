@@ -14,9 +14,17 @@ export class DashboardHomeComponent {
 
   selectedSprint: Sprint | undefined;
 
-  getSprintDetails(sprint: Sprint) {
+  getSprintDetails(sprint?: Sprint) {
+    if (!sprint) return;
+
     this.sprintService
       .getSprint(sprint.id)
       .subscribe((res: Sprint) => (this.selectedSprint = res));
+  }
+
+  markSelectedChip(sprint: any) {
+    return this.selectedSprint && this.selectedSprint.id == sprint.id
+      ? 'selected'
+      : '';
   }
 }
