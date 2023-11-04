@@ -9,7 +9,6 @@ import { SharedService } from './shared.service';
 @NgModule({
   declarations: [],
   imports: [CommonModule],
-  providers: [SharedService],
   exports: [
     InputTextModule,
     FormsModule,

@@ -3,6 +3,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Sprint } from 'src/app/shared/models/sprint';
 import { Task } from 'src/app/shared/models/task';
 import { TaskComponent } from '../task/task.component';
+import { CreateTaskComponent } from '../create-task/create-task.component';
 
 @Component({
   selector: 'app-sprint',
@@ -60,6 +61,18 @@ export class SprintComponent {
     this.ref = this.dialogService.open(TaskComponent, {
       header: 'Task details',
       data: { id: task.id },
+      maximizable: true,
+    });
+
+    this.ref.onClose.subscribe((res) => {
+      this.updateSprint.emit();
+    });
+  }
+
+  createTask() {
+    this.ref = this.dialogService.open(CreateTaskComponent, {
+      header: 'Task details',
+      data: { sprintId: this._sprint?.id },
       maximizable: true,
     });
 

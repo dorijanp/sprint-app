@@ -18,4 +18,9 @@ export class TaskService {
       ...task,
     });
   }
+  createTask(task: any) {
+    return this.http.post<Task>('http://localhost:3000/task', {
+      ...task,
+    });
+  }
 }

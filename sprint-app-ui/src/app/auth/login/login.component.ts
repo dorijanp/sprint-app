@@ -48,6 +48,7 @@ export class LoginComponent {
             `Welcome, ${user.firstName}`
           );
           this.sharedService.user$.next(user);
+          this.sharedService.loggedUser = user;
           this.router.navigate(['/', 'dashboard']);
         },
         error: (err: HttpErrorResponse) => {

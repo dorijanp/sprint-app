@@ -11,6 +11,8 @@ export class SharedService {
 
   user$ = new BehaviorSubject<User | null>(null);
 
+  loggedUser!: User;
+
   addMessage(severity: string, summary: string, detail: string) {
     this.messageService.add({
       severity,

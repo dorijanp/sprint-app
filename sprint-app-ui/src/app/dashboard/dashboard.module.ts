@@ -14,9 +14,10 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { DropdownModule } from 'primeng/dropdown';
 import { DividerModule } from 'primeng/divider';
+import { CreateTaskComponent } from './create-task/create-task.component';
 
 @NgModule({
-  declarations: [DashboardHomeComponent, SprintComponent, TaskComponent],
+  declarations: [DashboardHomeComponent, SprintComponent, TaskComponent, CreateTaskComponent],
   imports: [
     SharedModule,
     CommonModule,
